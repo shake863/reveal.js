@@ -29,6 +29,13 @@
             .reveal h6 {
                 text-transform: none;
             }
+            .reveal li {
+                line-height: 1.7em;
+            }
+
+            .reveal p {
+                font-size: 80%;
+            }
         </style>
 	</head>
 	<body>
@@ -46,11 +53,13 @@
                 <section>
                     <section data-markdown>
                         <script type="text/template">
-                            ### 7年前 ...
+                            ## react-naitve诞生的背景
+                            <br>
+                            - 现代Web开发技术的兴起
 
-                            - ios、android
-                            - Jquery、mootools
-                            - nodejs
+                            - 移动App开发的挑战
+
+                            - Nodejs成为全栈王者
 
 
                             Note:
@@ -62,14 +71,30 @@
                         </script>
                     </section>
                     <section>
-                        <h3> 移动App开发的困境</h3>
-                        <ol>
+                        <h3>现代Web开发技术的兴起</h3>
+                        <br>
+                        <p>JavaScript、ES6、JSX、Babel、NodeJS、NPM、Grunt、Bower、ReactJs、WebPack、Flux、Redux、Immutable、Angular、TypeScript、Service workers、Less、Sass ...</p>
+                        <img height="300" src="imgs/starwar.jpg" >
+
+                        <aside class="notes">
+                            - ES6的大范围普及
+                            - 前端开发的工程化进化
+                            - 得益于移动设备的高起点对PC的倒逼
+                        </aside>
+
+                    </section>
+                    <section>
+                        <h3>移动App开发的挑战</h3>
+                        <br>
+                        <ul style="font-size: 70%;">
                             <li>ios和android双平台</li>
                             <li>开发编译巨慢</li>
                             <li>版本迭代周期长</li>
                             <li>bug修复需发版本</li>
-                            <li class="fragment highlight-red">开发人员成本 : (</li>
-                        </ol>
+                            <li class="fragment highlight-red">开发人员成本</li>
+
+                        </ul>
+                        <p><img height="200" src="imgs/yuan.jpg" ></p>
                         <aside class="notes">
                             - 两种开发语言、两个平台、代码和解决方案都是两份, 对每个系统包含在外部的一些外延技术,也都各不相同,
                                就拿网络库来说,ios 有afnetwork, asi 等,android有 volley, okhttp,
@@ -83,19 +108,93 @@
                         </aside>
 
                     </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            #### 移动App开发的曙光?
-                            > PHP是世界上最好的语言，但JavaScript终将统一全宇宙
-
-                            <br>
-                            - 现代web技术的颠覆式发展
-                            - Nodejs全栈王者
-
-                        </script>
+                    <section>
+                        <h3>Nodejs成为全栈王者</h3>
+                        <br>
+                        <blockquote>" PHP是世界上最好的语言，但JavaScript终将统一全宇宙 "</blockquote>
                         <aside class="notes">
-                            1、移动开发的起源、最早的时候,09年开发Symbian当道,苹果系统问世
-                            2、现代
+                            1、NodeJs最近2年飞速发展,颠覆了很多技术领域,前端就不用说了,后端用来写server,利用基于事件的异步编程
+                               支持大量连接,到现在开发App也离不开它
+                            2、现在NodeJs的代码仓库NPM,保存的代码量已经超越所有其他语言的代码量
+                        </aside>
+                    </section>
+                </section>
+                <section data-background="#4d7e65">
+                    <section>
+                        <h2>ReactJs介绍</h2>
+                        <br>
+                        <p><img width="300" data-src="imgs/reactjs.svg"></p>
+                        <aside class="notes">
+                            1、最新的react-native版本 0.30,已经把reactjs和react-native拆分清楚,只不过react-native依赖reactjs
+                            2、想要很好的理解和学习react-native,必须要从reactjs下手,因为facebook官方默认你已经对reactjs是熟悉的,
+                            例如component的生命周期,jsx的语法,props和state的关系一起区别,stateless和stateful的component的区别
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>ReactJs和React-Native什么关系</h3>
+                        <br>
+                        <p style="text-align: left">React-Native是ReactJs在App上的<span style="color:greenyellow ">移植版</span>,两者都是由js实现的虚拟dom来驱动界面view层渲染,只不过ReactJs是驱动HtmlDom渲染, React-Native是驱动android/ios原生组件渲染</p>
+                        <aside class="notes">
+                            1、想要很好的理解和学习react-native,必须要从reactjs下手,因为facebook官方默认你已经对reactjs是熟悉的,
+                            例如component的生命周期,jsx的语法,props和state的关系一起区别,stateless和stateful的component的区别
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>ReactJs - Features</h3>
+                        <br>
+                        <ul>
+                            <li>reactive式显示View</li>
+                            <li>模块化、可组装的组件</li>
+                            <li>数据沿着组件树从上至下单向流动</li>
+                        </ul>
+                        <p style="text-align: right"><a target="_blank" href="https://jsfiddle.net/reactjs/69z2wepo/">示例</a></p>
+                        <aside class="notes">
+                            1、不是传统的绑定式更新,会对每个action做单独处理,当数据量变大时,结构就失去清晰
+                            2、reactjs本身就是以component的方式render的,天生有利于代码复用,这样方便代码维护,写出高质量代码
+                            3、reactjs摒弃双向数据绑定,让数据只向一个方向更新,减少复杂度和出错概率
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>ReactJs - Component</h3>
+                        <p><a target="_blank" href="imgs/component.jpg"><img height="550" data-src="imgs/component.jpg"></a></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>ReactJs -  注意事项</h3>
+                        <ul>
+                            <li>基于props和state的数据沿着组件树从上至下单向流动</li>
+                            <li>stateless 和 stateful 组件的拆分</li>
+                            <li>state应该包含最小量的合理数据来反应你的UI</li>
+                        </ul>
+                        <aside class="notes">
+                            1、严格准守数据的单项流动
+                            2、你的大部分组件仅仅是拿到props数据,render完成就ok了,有时候你要处理用户的input,以及服务器的返回数据
+                               这个时候你才需要用到stateful的组件,即有state属性。常规模式是,创建一个stateful的container组件来和
+                                外部数据打交道,内部封装一些只接受props的组件作为stateless组件,stateful包含业务逻辑代码,
+                                stateless只负者显示
+                            3、state不应该包含计算过的数据、其他component组件、以及从props复制过来的数据
+                        </aside>
+                    </section>
+                </section>
+
+                <section  data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+                    <section>
+                        <h3>ReactNative</h3>
+
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>ReactNative</h3>
+
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>ReactNative</h3>
+
+                        <aside class="notes">
                         </aside>
                     </section>
 
