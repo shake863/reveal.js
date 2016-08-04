@@ -180,24 +180,297 @@
 
                 <section  data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
                     <section>
-                        <h3>ReactNative</h3>
+                        <h3>React-Native</h3>
+                        <br>
+                        <blockquote style="font-size: 70%">
+                            " Build Native Mobile Apps using JavaScript and React, <br>
+                            React Native lets you build mobile apps using only JavaScript. It uses the same design as React, letting you compose a rich mobile UI from declarative components. "
 
+                            <br>
+                            <div style="text-align: right">-- facebook</div>
+                        </blockquote>
+                        <aside class="notes">
+                            React-Native 从ReactJs发展而来, 一些理论和方法调用都和ReactJs一致
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>React-Native代码片段 </h3>
+                        <pre>
+                        <code class="hljs" style="font-size: 90%" data-trim contenteditable>
+import React, { Component, } from 'react';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+
+class App extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+});
+
+AppRegistry.registerComponent('App', () => App);
+                        </code>
+                        </pre>
+                        <p style="text-align: right"><a target="_blank" href="http://dabbott.github.io/react-native-web-player/">示例</a></p>
                         <aside class="notes">
                         </aside>
                     </section>
                     <section>
-                        <h3>ReactNative</h3>
+                        <h3>React-Native 组成部分</h3>
+                        <ul>
+                            <li>RN 原生Modules、Components(内置、自制)</li>
+                            <li>RN 非原生Js层面Components</li>
+                            <li>RN 入口AppComponent</li>
+                            <li>RN StyleSheet <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">Flexbox</a></li>
+                        </ul>
+
+                        <pre>
+                            <code class="hljs">
+AppRegistry.registerComponent('F8v2', setup);
+                            </code>
+                        </pre>
 
                         <aside class="notes">
+                            1、react-native最核心的是提供一个native 和 js之间渲染的通信机制,在此基础上,系统也提供了一些基础的Components 和 Modules
+                            2、无论内置还是自制,都会按照RN提供的一套wrapper 写法来写接口文件
+                            3、Js层面会依托RN系统内置支持的空间来构建
+                        </aside>
+                    </section>
+                    <section  data-markdown>
+                        <script type="text/template">
+                        ### React-Native 工程创建(系统默认)
+
+                        > 系统准备以mac+ios为例
+
+                        ```
+                        brew install node         // 安装node环境
+                        brew install watchman     // 安装监听文件修改工具
+                        npm install -g react-native-cli // react-native 命令行
+                        ```
+
+                        > demo工程创建
+
+                        ```
+                        react-native init AwesomeProject
+                        cd AwesomeProject
+                        react-native run-ios
+                        ```
+                        [官方](http://facebook.github.io/react-native/docs/getting-started.html)
+                        </script>
+                    </section>
+                    <section  data-markdown>
+                        <script type="text/template">
+                            ### React-Native 样板工程
+
+                            > 我们搭建的增强版样板工程
+
+                            ```
+                            git clone git@gitlab:apps/rawRNProject.git   // 检出代码
+                            cd rawRNProject             // 进入工程目录
+                            npm install                 // 安装依赖
+                            ./server.sh                 // 启动开发服务
+                            sh package_ios_all.sh      // 打包本地bundle
+                            ```
+                            - react-native版本切换支持   <!-- .element: style="font-size:70%"  -->
+                            - 添加cplt底层c++层面跨平台支持 <!-- .element: style="font-size:70%"  -->
+                            - 多bundle消息传递支持 <!-- .element: style="font-size:70%"  -->
+                            - bundle的在线更新支持 <!-- .element: style="font-size:70%"  -->
+                            - 新浪sso登录接口支持 <!-- .element: style="font-size:70%"  -->
+
+                        </script>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>React-Native 实现原理</h3>
+                        <p>RN需要一个JS的运行环境， 在IOS上直接使用内置的javascriptcore， 在Android 则使用webkit.org官方开源的jsc.so, 以此来把构建的虚拟DOM树给渲染出来</p>
+                        <p><a target="_blank" href="imgs/framework.jpeg"><img height="400" data-src="imgs/framework.jpeg"></a></p>
+
+                        <aside class="notes">
+                            1、普通的JS-OC通信实际上很简单，
+                            OC向JS传信息有现成的接口，
+                            像webview提供的-stringByEvaluatingJavaScriptFromString方法可以直接在当前context上执行一段JS脚本，
+                            并且可以获取执行后的返回值，这个返回值就相当于JS向OC传递信息。
+                            React Native也是以此为基础，通过各种手段，实现了在OC定义一个模块方法，JS可以直接调用这个模块方法并还可以无缝衔接回调。
+
+                            2、对于传统 Java<>Js 通信而言，
+                            Js 调用 Java 通不外乎 Jsbridge、onprompt、log 及 addjavascriptinterface 四种方式，
+                            在 Java 调用 Js 只有 loadurl 及高版本才支持的 evaluateJavaScript 两种。
+                            但在 RN 中没有采用了传统 Java 与 Js 之间的通信机制，而是借助 MessageQueue 及模块配置表，
+                            将调用转化为{moduleID, methodID，callbackID，args}，处理端在模块配置表里查找注册的模块与方法并调用。
+
                         </aside>
                     </section>
                     <section>
-                        <h3>ReactNative</h3>
+                        <h3>React-Native 运行原理</h3>
+                        <p style="font-size: 65%">简化的可以理解为, Native端和JS端分别各有一个bridge，两个bridge都保存了同样一份模块配置表，JS调用Native模块方法时，通过bridge里的配置表把模块方法转为模块ID和方法ID传给Native，Native通过bridge的模块配置表找到对应的方法执行之</p>
+                        <p><a target="_blank" href="imgs/query.png"><img height="400" data-src="imgs/query.png"></a></p>
+                        <p style="text-align: right"><a target="_blank" href="http://blog.cnbang.net/tech/2698/">网文</a></p>
+                    </section>
+                    <section>
+                        <h3>React-Native IOS调用原理</h3>
+                        <p style="font-size: 70%">Native端和JS端分别各有一个bridge，两个bridge都保存了同样一份模块配置表，JS调用Native模块方法时，通过bridge里的配置表把模块方法转为模块ID和方法ID传给Native，同时把调用请求放到一个MessageQueue里面,并且保留CallbackID,
+                            Native通过bridge的模块配置表找到对应的方法执行之,并根据保存的CallbackID进行回调</p>
+                        <p><a target="_blank" href="imgs/callback.png"><img height="400" data-src="imgs/callback.png"></a></p>
+                        <p style="text-align: right"><a target="_blank" href="http://blog.cnbang.net/tech/2698/">网文</a></p>
+                    </section>
+                    <section>
+                        <h3>React-Native IOS调用原理 之 事件响应</h3>
+                        <p style="font-size: 70%">上述第4步是怎么把数据传给Native的? 其实是利用了Native的事件机制</p>
+                        <p><a target="_blank" href="imgs/event.png"><img height="400" data-src="imgs/event.png"></a></p>
+                        <p style="text-align: right"><a target="_blank" href="http://blog.cnbang.net/tech/2698/">网文</a></p>
+                    </section>
+                    <section>
+                        <h3>React-Native Androud调用原理</h3>
+                        <p style="font-size: 70%">原理和Ios一致,不得就是实现方式不一样而已</p>
+                        <p><a target="_blank" href="imgs/j2js.jpg"><img width="400" data-src="imgs/j2js.jpg"></a>
+                            <a target="_blank" href="imgs/js2j.jpg"><img width="400" data-src="imgs/js2j.jpg"></a></p>
+                        <p style="text-align: right"><a target="_blank" href="http://www.cnblogs.com/bugly/p/5266250.html">网文</a></p>
+                    </section>
+                    <section>
+                        <h3>React-Native Native-Module开发</h3>
+                        <p><a target="_blank" href="imgs/ios-module.png"><img height="500" data-src="imgs/ios-module.png"></a></p>
+                        <p style="text-align: right"><a target="_blank" href="http://facebook.github.io/react-native/docs/native-modules-ios.html#ios-calendar-module-example">网文</a></p>
+                    </section>
+                </section>
+                <section data-background="#4d7e65">
+                    <section>
+                        <h3>React-Native 应用开发</h3>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        ### 工程管理 - cnpm
 
+                        ```
+                         echo -e '\n#alias for cnpm\nalias cnpm="npm \
+                             --registry=http://10.210.227.168:7001 \
+                             --cache=$HOME/.npm/.cache/cnpm \
+                             --disturl=http://10.210.227.168:7002 \
+                             --userconfig=$HOME/.cnpmrc"' \
+                             >> ~/.bashrc && source ~/.bashrc
+                        ```
+                        [wiki](http://wiki.intra.sina.com.cn/pages/viewpage.action?pageId=102663061)
+                        ![@app native库](/reveal.js/imgs/cnpmapp.png "@app")
+
+                        </script>
+                    </section>
+                    <section>
+                        <h3>redux</h3>
+                        <blockquote>
+                           " JavaScript 需要管理比任何时候都要多的 state （状态）。 这些 state 可能包括服务器响应、缓存数据、本地生成尚未持久化到服务器的数据，也包括 UI 状态，如激活的路由，被选中的标签，是否显示加载动效或者分页器等等。"
+                        </blockquote>
+                        <ul>
+                            <li>Store</li>
+                            <li>Reducer</li>
+                            <li>Action</li>
+                            <li>Middleware、异步 ... </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>react-redux</h3>
+                        <p>Redux 官方提供的 React 绑定库。</p>
+                        <pre><code>npm install --save react-redux</code></pre>
+                    </section>
+                    <section>
+                        <h3>redux 使用</h3>
+                        <pre><code>
+import { connect } from 'react-redux';
+// 哪些 Redux 全局的 state 是我们组件想要通过 props 获取的？
+function mapStateToProps(state) {
+  return {
+    value: state.counter
+  };
+}
+
+// 哪些 action 创建函数是我们想要通过 props 获取的？
+function mapDispatchToProps(dispatch) {
+  return {
+    onIncrement: () => dispatch(increment())
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Counter);
+
+....
+
+import { Provider } from 'react-redux';
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+
+                        </code></pre>
+                        <p style="text-align: right"><a target="_blank" href="http://cn.redux.js.org/docs/react-redux/quick-start.html#quick-start">文档</a></p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>React-Native 反思</h3>
+                        <ul>
+                            <li>系统仍然依赖原生组件暴露出来的组件和方法</li>
+                            <li>大量组件是iOS only的,不能跨平台</li>
+                            <li>比较于WebApp能干的事情太多了,但是代价也很大</li>
+                        </ul>
                         <aside class="notes">
+                            1、ScrollView这个组件，在Native层是有大量事件的，
+                            scrollViewWillBeginDragging， scrollViewWillEndDragging，scrollViewDidEndDragging等等，
+                            这些事件在现有的版本都没有暴露，基本上做不了组件联动效果。
+
+                            2、ActivityIndicatorIOS、DatePickerIOS、NavigatorIOS、PickerIOS、SliderIOS、SwitchIOS、
+                            TabBarIOS、AlertIOS、AppStateIOS、LinkingIOS、PushNotificationIOS、StatusBarIOS、VibrationIOS，
+                            反过来看，剩余的都是一些抽象程度极强的基本组件。
+                            这样，用户必须在不同的平台下写两套代码，而且所有能力仍然强烈依赖 React native 开发人员暴露的接口。
                         </aside>
                     </section>
+                    <section>
+                        <h3>曙光 !?</h3>
+                        <ul>
+                            <li>整体的RN化的App</li>
+                            <li>已有大量原生代码的App</li>
+                            <li>平台级App</li>
+                        </ul>
+                        <aside class="notes">
+                            1、全RN化的app, 整个app的的生命周期都是在一个view上, 系统提供的各种把控都用不上, 导航如何处理? 之前原生
+                               方案中的一些页面变换全部用不上,现在只有一个view
 
+                            2、部门页面使用react话,比如经常需要运营要改变的页面, 这样势必出现多bundle问题, 以及 bundle中js 和外部
+                               App中的native代码交互问题, 甚至一些样式一致问题, 比如 loading效果。
+
+                            3、降低开发者门槛,构建自己的开发接口,让开发者用js来写功能组件, 淘宝? 微信? 微博? 小米,米UI。
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>QA</h3>
+                        <p>我也是初学者, 如有错误,请指正 </p>
+                    </section>
                 </section>
 			</div>
 		</div>
@@ -216,8 +489,10 @@
 
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
 					{ src: 'plugin/notes/notes.js', async: true },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
